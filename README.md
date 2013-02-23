@@ -1,35 +1,15 @@
 # smoke-signals
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
+Notifier for [Campfire]("http://campfirenow.com/") messages. Polls the specified Campfire room every 10 seconds for new messages that match a specified pattern. If any messages match, will shell out to `notify-send` with a message indicating how many messages matched.
 
 ## Usage
 
-FIXME: explanation
+Use Leiningen:
 
-    $ java -jar smoke-signals-0.1.0-standalone.jar [args]
+	lein run "http://campfire/room/url" "your-campfire-token" "pattern"
+	
+Or you can create an uberjar and run using java:
 
-## Options
+	lein uberjar
+	java -jar path/to/uberjar "http://campfire/room/url" "your-campfire-token" "pattern"
 
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2013 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
