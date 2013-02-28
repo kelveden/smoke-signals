@@ -4,11 +4,16 @@
             [clojure.contrib.shell-out :as shell :only [sh]])
   (:import [java.util.concurrent TimeUnit]))
 
-(def most-recent-message-id (atom nil))
+(def most-recent-message-id
+  "Atom storing the id of the most recent message from the last pulled
+batch of Campfire messages. Used as a starting point for retrieving
+the next batch."
+  (atom nil))
 
-;; Pulls the latest messages from Campfire that have been posted since the most recent
-;; message from the previously pulled batch.
-(defn- get-latest-messages [campfire-url token]
+(defn- get-latest-messages
+  "Pulls the latest messages from Campfire that have been posted since
+  the most recent message from the previously pulled batch."
+  [campfire-url token]
   (-> (client/get (str campfire-url "/recent.json")
                {:query-params {"since_message_id" @most-recent-message-id}
                 :basic-auth [token "dummypassword"]
@@ -16,28 +21,40 @@
       :body
       :messages))
 
-(defn- text-message? [message]
+(defn- text-message?
+  "Returns true if the specified Campfire message is of type TextMessage."
+  [message]
   (= (message :type) "TextMessage"))
 
-;; Filters out only those Campfire messages that have a body that matches the specified pattern.
-(defn- filter-messages [messages pattern]
+(defn- filter-messages
+  "Filters out only those Campfire messages that have a body that
+  matches the specified pattern."
+  [messages pattern]
   (filter #(and 
             (text-message? %)
             (re-find (re-pattern pattern) (% :body ""))) 
           messages))
 
-;; Shells out to notify-send to send a notification of the count of the specified messages.
-(defn- notify-about [messages] 
+(defn- notify-about
+  "Shells out to notify-send to send a notification of the count of the specified messages."
+  [messages] 
   (when (seq messages)
     (shell/sh "notify-send" (str "Detected " (count messages) " Campfire messages"))))
 
-;; Stores the id of the most recent Campfire message to an atom
-(defn- store-most-recent-message-id [messages]
+(defn- store-most-recent-message-id
+  "Stores the id of the most recent Campfire message to an atom"
+  [messages]
   (when (seq messages)
     (reset! most-recent-message-id ((last messages) :id)))
   messages)
 
-(defn -main [campfire-url token pattern]
+(defn -main
+  "Polls the room specified by the given full Campfire room URL every
+10 seconds for text messages that have a body that matches the
+specified regex. If 1 or matches is found a message indicating the
+number of matches is displayed to the user via shelling out to
+notify-send."
+  [campfire-url token pattern]
   (while true
     (-> (get-latest-messages campfire-url token)
         (store-most-recent-message-id)
