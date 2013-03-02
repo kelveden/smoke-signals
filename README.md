@@ -13,3 +13,6 @@ Or you can create an uberjar and run using java:
 	lein uberjar
 	java -jar path/to/uberjar "http://campfire/room/url" "your-campfire-token" "pattern"
 
+## Using a HTTP proxy
+
+The app will automatically use whatever proxy settings are specified in the $http_proxy environment variable.
