@@ -6,12 +6,12 @@ Notifier for [Campfire]("http://campfirenow.com/") messages. Polls the specified
 
 Use Leiningen:
 
-	lein run "http://campfire/room/url" "your-campfire-token" "pattern"
+	lein run "http://your/campfire/room/url" "your-campfire-token" "pattern"
 	
 Or you can create an uberjar and run using java:
 
 	lein uberjar
-	java -jar path/to/uberjar "http://campfire/room/url" "your-campfire-token" "pattern"
+	java -jar path/to/uberjar "http://your/campfire/room/url" "your-campfire-token" "pattern"
 
 ## Using a HTTP proxy
 
