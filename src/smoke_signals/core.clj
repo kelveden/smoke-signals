@@ -1,8 +1,14 @@
 (ns smoke-signals.core
   (:gen-class)
   (:require [clj-http.client :as client]
-            [clojure.contrib.shell-out :as shell :only [sh]])
+            [clojure.contrib.shell-out :as shell :only [sh]]
+            [environ.core :as environ])
   (:import [java.util.concurrent TimeUnit]))
+
+(def proxy-settings
+  (let [proxy-env-matches (re-matches #"http://([^:].+):(.+)" (or (environ/env :http-proxy) ""))]
+    {:proxy-host (nth proxy-env-matches 1)
+     :proxy-port (Integer. (or (nth proxy-env-matches 2) 0))}))
 
 (def most-recent-message-id
   "Atom storing the id of the most recent message from the last pulled
@@ -15,9 +21,11 @@ the next batch."
   the most recent message from the previously pulled batch."
   [campfire-url token]
   (-> (client/get (str campfire-url "/recent.json")
-               {:query-params {"since_message_id" @most-recent-message-id}
-                :basic-auth [token "dummypassword"]
-                :as :json})
+                  {:proxy-host (proxy-settings :proxy-host)
+                   :proxy-port (proxy-settings :proxy-port)
+                   :query-params {"since_message_id" @most-recent-message-id}
+                   :basic-auth [token "dummypassword"]
+                   :as :json})
       :body
       :messages))
 
