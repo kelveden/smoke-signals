@@ -4,7 +4,7 @@ Notifier for [Campfire](http://campfirenow.com) messages. Polls the specified Ca
 
 ## Why?
 
-In busier Campfire rooms it can be difficult to keep track of discussions that are relevant. smoke-signals tries to reduce the noise only alerting you to the messages that match specific pattern(s). 
+In busier Campfire rooms it can be difficult to keep track of discussions that are relevant. smoke-signals tries to reduce the noise by only alerting you to the messages that match specific pattern(s). 
 
 ## Usage
 
