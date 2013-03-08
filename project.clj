@@ -5,5 +5,6 @@
             :url "http://www.apache.org/licenses"}
   :dependencies [[clj-http "0.6.4"],
                  [org.clojure/clojure "1.4.0"]
-                 [org.clojure/clojure-contrib "1.2.0"]]
+                 [org.clojure/clojure-contrib "1.2.0"]
+		 [environ "0.3.0"]]
   :main smoke-signals.core)
