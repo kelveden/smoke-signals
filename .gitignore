@@ -2,3 +2,5 @@ pom.xml
 *jar
 target
 .lein-deps-sum
+.idea
+*.iml
