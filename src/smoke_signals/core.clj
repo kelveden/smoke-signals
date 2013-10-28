@@ -68,4 +68,4 @@ notify-send."
         (store-most-recent-message-id)
         (filter-messages pattern)
         (notify-about))
-    (.sleep TimeUnit/SECONDS 10)))
+    (.sleep TimeUnit/SECONDS 30)))
