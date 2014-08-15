@@ -21,4 +21,4 @@ Or you can create an uberjar and run using java:
 
 ## Using a HTTP proxy
 
-Experimental: The app will automatically use whatever proxy settings are specified in the $http_proxy environment variable.
+The app will automatically use whatever proxy settings are specified in the $http_proxy environment variable.
